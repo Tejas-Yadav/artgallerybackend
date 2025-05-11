@@ -4,6 +4,9 @@ const fs = require('fs');
 const uuid4 = require('../utils/uuid4');
 const createUploader = require('../utils/fileUploader');
 
+const PORT = process.env.PORT;
+const HOST = process.env.HOST;
+
 exports.getArtWorks = async (req, res) => {
     const folderPath = path.join(__dirname, '../uploads/thumbnails');
 
@@ -15,8 +18,8 @@ exports.getArtWorks = async (req, res) => {
         }
         const imagePaths = files.map((file) => {
             return {
-                url: `http://localhost:3000/uploads/thumbnails/${file}`,
-                filename: path.parse(file).name // Extract filename without extension
+                url: `http://${HOST}:${PORT}/uploads/thumbnails/${file}`,
+                filename: file // Extract filename without extension
             };
         });
         res.json({ images: imagePaths });
@@ -33,8 +36,8 @@ exports.getHomeArtWorks = async (req, res) => {
         const selected = shuffled.slice(0, 4);
         const randomImagePaths = selected.map((file) => {
             return {
-                url: `http://localhost:3000/uploads/thumbnails/${file}`,
-                filename: path.parse(file).name // Extract filename without extension
+                url: `http://${HOST}:${PORT}/uploads/thumbnails/${file}`,
+                filename: file // Extract filename without extension
             };
         });
         res.json({ images: randomImagePaths });
@@ -42,7 +45,12 @@ exports.getHomeArtWorks = async (req, res) => {
 }
 
 exports.getArtWork = async (req, res) => {
+    const filename = req.params.filename;
+    const filePath = `http://${HOST}:${PORT}/uploads/artworks/${filename}`
 
+    res.send({
+        image: filePath
+    });
 }
 
 

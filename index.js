@@ -13,7 +13,7 @@ app.use(express.json()); // Parses JSON bodies
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.get('/auth/login', auth.login);
 
-app.use('/api', auth.auth, router);
+app.use('/api', router);
 app.use('/art', artRouter);
 
 
